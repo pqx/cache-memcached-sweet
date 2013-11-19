@@ -1,5 +1,6 @@
 Revision history for Cache-Memcached-Sweet
 
-0.01    Date/time
-        First version, released on an unsuspecting world.
+0.02	Changed exported function name from c to memcached
+
+0.01	First version, released on an unsuspecting world.
 
