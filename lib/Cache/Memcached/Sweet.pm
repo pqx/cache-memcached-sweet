@@ -8,13 +8,13 @@ use Exporter 'import';
 
 use Cache::Memcached;
 
-our @EXPORT = qw(c);
+our @EXPORT = qw(memcached);
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 my $memcached = new Cache::Memcached(servers => ['localhost:11211']);
 
-sub c {
+sub memcached {
 	my ($k, $v, $ttl) = @_;
 	if( @_ >= 2) {
 		if (ref($v) eq 'CODE') {
@@ -43,40 +43,45 @@ Cache::Memcached::Sweet - sugary memcached with callbacks
 
 =head1 SYNOPSIS
 
-  use Cache::Memcached::Sweet; # exports the subroutine "c"
+  use Cache::Memcached::Sweet; # exports the subroutine "memcached"
 
-  my $value = m($key, sub { 
+  my $value = memcached($key, sub { 
  	return some_expensive_operation($foo, $bar, $baz);
   });
 
-  my $value = c($key); # retrieve value
+  my $value = memcached($key); # retrieve value
 
+  memcached($other_key, { a => 1, b => 2 }, 600); # set value with TTL
 
-  c($other_key, { a => 1, b => 2 }, 600); # set value with TTL
-
-  my $memcached = c; # Exposes the package global memcached object
-  $memcached->set_servers() ... etc
 
 =head1 FUNCTIONS
 
-L<Cache::Memcached::Sweet> implements and exports the following functions
+L<Cache::Memcached::Sweet> implements and exports the following function
 
-=head2 c
+=head2 memcached
   
   # Set's a value with no TTL
-  c('foo', $cache_this);
+  memcached('foo', $cache_this);
 
   # Sets a value, with optional ttl
-  c('bar', { a => 1, b => 2 }, 600);
+  memcached('bar', { a => 1, b => 2 }, 600);
 
   # Retrieves a value from the cache
-  my $value = c('baz');
+  my $value = memcached('baz');
 
   # Gets a value if it exists or sets it with the return value from executing the coderef
   # Note: The coderef is called in scalar context
-  my $result = c('blurgh', sub { 
+  my $result = memcached('blurgh', sub { 
      buzz($blirp, $blurp) 
   });
+
+  my $mc = memcached; # Exposes package global instance of Cache::Memcached
+  $mc->set_servers()  # ... etc, but not recommended
+  
+=head1 CAUTION
+
+This module is meant to provide convenience, and is hardcoded to localhost:11211. If you're
+running a multi server memcached cluster, then this module is probably not for you.
 
 =head1 AUTHOR
 
