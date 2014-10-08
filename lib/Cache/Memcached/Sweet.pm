@@ -12,7 +12,7 @@ our @EXPORT = qw(memcached);
 
 our $VERSION = '0.02';
 
-my $memcached = new Cache::Memcached(servers => ['localhost:11211']);
+my $memcached = new Cache::Memcached(servers => ['localhost:'. ($ENV{BOXEN_MEMCACHED_PORT} || 11211)]);
 
 sub memcached {
 	my ($k, $v, $ttl) = @_;
