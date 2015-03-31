@@ -1,5 +1,7 @@
 Revision history for Cache-Memcached-Sweet
 
+0.03	Reads MEMCACHED_HOST env variable
+
 0.02	Changed exported function name from c to memcached
 
 0.01	First version, released on an unsuspecting world.
