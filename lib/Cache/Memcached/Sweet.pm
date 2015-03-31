@@ -10,9 +10,9 @@ use Cache::Memcached;
 
 our @EXPORT = qw(memcached);
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
-my $memcached = new Cache::Memcached(servers => [ $ENV{MEMCACHED_HOST} || 'localhost:11211' ]);
+my $memcached = new Cache::Memcached( servers => [ $ENV{MEMCACHED_HOST} || 'localhost:11211' ] );
 
 sub memcached {
 	my ($k, $v, $ttl) = @_;
