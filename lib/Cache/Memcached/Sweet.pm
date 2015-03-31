@@ -10,9 +10,9 @@ use Cache::Memcached;
 
 our @EXPORT = qw(memcached);
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
-my $memcached = new Cache::Memcached(servers => ['localhost:11211']);
+my $memcached = new Cache::Memcached(servers => [ $ENV{MEMCACHED_HOST} || 'localhost:11211' ]);
 
 sub memcached {
 	my ($k, $v, $ttl) = @_;
@@ -42,6 +42,8 @@ sub memcached {
 Cache::Memcached::Sweet - sugary memcached with callbacks 
 
 =head1 SYNOPSIS
+
+  # Reads MEMCACHED_HOST from env, and defaults to localhost:11211 if not set
 
   use Cache::Memcached::Sweet; # exports the subroutine "memcached"
 
@@ -80,8 +82,7 @@ L<Cache::Memcached::Sweet> implements and exports the following function
   
 =head1 CAUTION
 
-This module is meant to provide convenience, and is hardcoded to localhost:11211. If you're
-running a multi server memcached cluster, then this module is probably not for you.
+This module is meant to provide convenience, and is hardcoded to get the memcached server address from MEMCACHED_HOST or will default to localhost:11211. If you're running some fancy memcached cluster, then this module is probably not for you.
 
 =head1 AUTHOR
 
